@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather</title>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script>
+        $(document).on("click", "#ajax-button", function () {
+            $.post("/weather?city=" + document.getElementById("city").value, function (responseText) {
+                if (responseText === 'No city'){
+                    document.getElementById('table').innerHTML = '<p>  No city </p>'
+                } else {
+
+                    let response = JSON.parse(responseText)
+                    document.getElementById('table').innerHTML = '<table>' +
+                        '<tr>' +
+                        '<td>  City:  </td>' +
+                        '<td>' + response['name'] + '</td>' +
+                        '</tr>' +
+
+                        '<tr>' +
+                        '<td>  Temperature:  </td>' +
+                        '<td>' + response['temp'] + '</td>' +
+                        '</tr>' +
+
+                        '<tr>' +
+                        '<td>  Max temperature:  </td>' +
+                        '<td>' + response['temp_max'] + '</td>' +
+                        '</tr>' +
+
+                        '<tr>' +
+                        '<td>  Min temperature:  </td>' +
+                        '<td>' + response['temp_min'] + '</td>' +
+                        '</tr>' +
+
+                        '<tr>' +
+                        '<td>  Feels like:  </td>' +
+                        '<td>' + response['feels_like'] + '</td>' +
+                        '</tr>' +
+
+                        '<tr>' +
+                        '<td>  Description:  </td>' +
+                        '<td>' + response['description'] + '</td>' +
+                        '</tr>'
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+<form>
+    <p class="lead" style="float: left; margin-right: 10%;">
+        Введите город:<br>
+        <input name="city" type="text" id="city"><br>
+    </p>
+    <br>
+    <p class="lead" style="margin-right: 15%;">
+        <input type="button" value="Найти" id="ajax-button">
+    </p>
+</form>
+<br>
+<div id="table">
+    <p class="font-weight-normal mb-0">Username: <strong>${response['description']}</strong></p>
+</div>
+</body>
+</html>
